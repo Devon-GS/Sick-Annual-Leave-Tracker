@@ -63,36 +63,60 @@ def add_employee_db(id, fname, sname, start_date):
 		messagebox.showerror(title='Add Employee Error', message=error)
 
 
+def search_employee_db(search):
+	try:
+		con = sqlite3.connect("employeeLeave.db")
+		c = con.cursor()
+
+		# Turn on foreign keys
+		c.execute('PRAGMA foreign_keys = ON')
+
+		c.execute(f"""SELECT id, firstName, lastName, startDate
+ 					FROM
+ 						employees
+ 					WHERE
+ 						firstName LIKE '%{search}%'""")
+		
+		records = c.fetchall()
+
+		con.commit()
+		con.close()
+
+		return records
+	except Exception as error:
+		messagebox.showerror(title='Search Employee Error', message=error)
+
+def update_employee_db(id, fname, sname, start_date):
+	try:
+		con = sqlite3.connect("employeeLeave.db")
+		c = con.cursor()
+
+		# Turn on foreign keys
+		c.execute('PRAGMA foreign_keys = ON')
+
+		c.execute('''UPDATE employees SET
+						firstName = :firstName,
+						lastName = :lastName,
+						startDate = :startDate
+
+						WHERE id = :id''',
+						{
+							'id' : id,
+							'firstName' : fname,
+							'lastName' : sname,
+							'startDate' : start_date
+						})
+		
+		con.commit()
+		con.close()
+		
+		# Display complete
+		messagebox.showinfo(title='Update Employee', message='Updated Employee Successfully')
+
+	except Exception as error:
+		messagebox.showerror(title='Update Employee Error', message=error)
 
 
-# def search():
-# 				# Get search name
-# 				english_name = ename_entry.get()
-# 				ename_entry.delete(0, END)
-
-# 				# Get matching results
-# 				search_results = pay.search_employees(english_name)
-
-# 				# Loop through and select right result
-# 				for x in search_results:
-# 					response = messagebox.askyesno('Employee Information', f'{x} : Is this the right employee?')
-
-# 					if response == 1:
-# 						ename_entry.insert(0, x[0])
-# 						fname_entry.insert(0, x[1])
-# 						sname_entry.insert(0, x[2])
-# 						id_entry.insert(0, x[3])
-# 						break
-
-
-# c.execute(f"""SELECT englishName,
-# 						fullName,
-# 						Surname,
-# 						idPass
-# 					FROM
-# 						employeeNames
-# 					WHERE
-# 						englishName LIKE '%{search}%'""")
 
 
 # MAKE INSERT AND COLLECT FUNCTIONS

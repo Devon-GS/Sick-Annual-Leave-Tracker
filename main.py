@@ -1,57 +1,7 @@
 from tkinter import *
-from tkinter import messagebox
-from tkcalendar import *
-import database as db
+import employee_setup as setup
 
 root = Tk()
-
-# ##############################################################################################
-# FUNCTIONS
-# ##############################################################################################
-def add_employee():
-	top = Toplevel()
-	top.attributes('-topmost', True)
-	top.geometry("400x350")
-	top.title("Add Employee")
-
-	id_label = Label(top, text="Employee ID:")
-	id_label.grid(row=0, column=0, padx=10, pady=5)
-	id_entry = Entry(top)
-	id_entry.grid(row=0, column=1, padx=10, pady=5)
-
-	fname_label = Label(top, text="First Name:")
-	fname_label.grid(row=1, column=0, padx=10, pady=5)
-	fname_entry = Entry(top)
-	fname_entry.grid(row=1, column=1, padx=10, pady=5)
-
-	sname_label = Label(top, text="Surname Name:")
-	sname_label.grid(row=2, column=0, padx=10, pady=5)
-	sname_entry = Entry(top)
-	sname_entry.grid(row=2, column=1, padx=10, pady=5)
-
-	cal = Calendar(top)
-	cal.grid(row=3, column=1, padx=10, pady=5)
-
-	def save():
-		id = id_entry.get().upper()
-		fname = fname_entry.get().capitalize()
-		sname = sname_entry.get().capitalize()
-		start = cal.get_date()
-
-		# Save to database
-		db.add_employee_db(id, fname, sname, start)
-
-		# Clear entry boxes
-		id_entry.delete(0, END)
-		fname_entry.delete(0, END)
-		sname_entry.delete(0, END)
-	
-	save_button = Button(top, text="Save", command=save)
-	save_button.grid(row=4, column=0, columnspan=4, sticky=NSEW, padx=10, pady=10)
-
-def update_employee():
-	pass
-
 
 # ##############################################################################################
 # WIDGETS
@@ -60,8 +10,8 @@ def update_employee():
 # Setup buttons
 setup_label = Label(root, text='EMPLOYEE SETUP',borderwidth=1, relief='solid')
 
-add_employee_button = Button(root, text='Add Employee', width=12, command=add_employee)
-update_employee_button = Button(root, text='Add Employee', width=12, command=update_employee)
+add_employee_button = Button(root, text='Add Employee', width=12, command=setup.add_employee)
+update_employee_button = Button(root, text='Update Employee', width=12, command=setup.update_employee)
 
 # ##############################################################################################
 # BIND WIDGETS
