@@ -37,6 +37,25 @@ if not os.path.exists('employeeLeave.db'):
 # DATABASE FUNCTIONS
 # ##############################################################################################
 
+def collect_data(table):
+	try:
+		con = sqlite3.connect("employeeLeave.db")
+		c = con.cursor()
+
+		# Turn on foreign keys
+		c.execute('PRAGMA foreign_keys = ON')
+
+		c.execute(f"SELECT * FROM {table}")
+		records = c.fetchall()
+		
+		con.commit()
+		con.close()
+		
+		return records
+	
+	except Exception as error:
+		messagebox.showerror(title='Add Employee Error', message=error)
+
 def add_employee_db(id, fname, sname, start_date):
 	try:
 		con = sqlite3.connect("employeeLeave.db")
