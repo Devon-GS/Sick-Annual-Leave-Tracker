@@ -80,6 +80,13 @@ my_tree.tag_configure('evenrow', background="lightblue")
 # FUNCTIONS
 # ##############################################################################################
 
+def clear_input():
+	id_entry.config(state="normal")
+	id_entry.delete(0, END)
+	first_entry.delete(0, END)
+	last_entry.delete(0, END)
+	start_entry.delete(0, END)
+	
 def add_employee():
 	# SORT OUT DATE FORMATE
 	id = id_entry.get().upper()
@@ -171,10 +178,14 @@ start_entry.grid(row=0, column=7, padx=10, pady=10)
 setup_frame = LabelFrame(root, text="Setup Employees")
 setup_frame.pack(fill="x", expand="yes", padx=20)
 
-add_employee_button = Button(setup_frame, text='Add Employee', width=12, command=add_employee)
-add_employee_button.grid(row=1, column=0, padx=10, pady=10)
-update_employee_button = Button(setup_frame, text='Update Employee', width=12, command=update_employee)
-update_employee_button.grid(row=1, column=1, padx=10, pady=10)
+clear_button = Button(setup_frame, text='Clear', width=12, command=clear_input)
+clear_button.grid(row=0, column=0, padx=10, pady=10)
+
+add_employee_button = Button(setup_frame, text='Add Employee', width=12, padx=0, command=add_employee)
+add_employee_button.grid(row=0, column=1, padx=10, pady=10)
+
+update_employee_button = Button(setup_frame, text='Update Employee', width=15, command=update_employee)
+update_employee_button.grid(row=0, column=2, padx=10, pady=10)
 
 # Bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
