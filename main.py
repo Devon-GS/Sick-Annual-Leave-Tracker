@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-import employee_setup as setup
 import database as db
 
 root = Tk()
@@ -100,6 +99,24 @@ def add_employee():
 	# Refresh
 	builder()
 
+def update_employee():
+	id = id_entry.get()
+	fname = first_entry.get().capitalize()
+	sname = last_entry.get().capitalize()
+	start = start_entry.get()
+
+	db.update_employee_db(id, fname, sname, start)
+
+	# Clear entry boxes
+	id_entry.config(state='normal')
+	id_entry.delete(0, END)
+	first_entry.delete(0, END)
+	last_entry.delete(0, END)
+	start_entry.delete(0, END)
+
+	# Refresh
+	builder()
+
 # Select Record
 def select_record(e):
 	# Clear entry boxes
@@ -156,7 +173,7 @@ setup_frame.pack(fill="x", expand="yes", padx=20)
 
 add_employee_button = Button(setup_frame, text='Add Employee', width=12, command=add_employee)
 add_employee_button.grid(row=1, column=0, padx=10, pady=10)
-update_employee_button = Button(setup_frame, text='Update Employee', width=12, command=setup.update_employee)
+update_employee_button = Button(setup_frame, text='Update Employee', width=12, command=update_employee)
 update_employee_button.grid(row=1, column=1, padx=10, pady=10)
 
 # Bind the treeview

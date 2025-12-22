@@ -36,28 +36,10 @@ if not os.path.exists('employeeLeave.db'):
 	con.close()
 
 # ##############################################################################################
-# DATABASE FUNCTIONS
+# SETUP EMPLOYEE FUNCTIONS
 # ##############################################################################################
 
-def collect_data(table):
-	try:
-		con = sqlite3.connect("employeeLeave.db")
-		c = con.cursor()
-
-		# Turn on foreign keys
-		c.execute('PRAGMA foreign_keys = ON')
-
-		c.execute(f"SELECT * FROM {table}")
-		records = c.fetchall()
-		
-		con.commit()
-		con.close()
-		
-		return records
-	
-	except Exception as error:
-		messagebox.showerror(title='Add Employee Error', message=error)
-
+# Add employee to database
 def add_employee_db(id, fname, sname, start):
 	try:
 		con = sqlite3.connect("employeeLeave.db")
@@ -90,30 +72,7 @@ def add_employee_db(id, fname, sname, start):
 	except Exception as error:
 		messagebox.showerror(title='Add Employee Error', message=error)
 
-
-def search_employee_db(search):
-	try:
-		con = sqlite3.connect("employeeLeave.db")
-		c = con.cursor()
-
-		# Turn on foreign keys
-		c.execute('PRAGMA foreign_keys = ON')
-
-		c.execute(f"""SELECT id, firstName, lastName, startDate
- 					FROM
- 						employees
- 					WHERE
- 						firstName LIKE '%{search}%'""")
-		
-		records = c.fetchall()
-
-		con.commit()
-		con.close()
-
-		return records
-	except Exception as error:
-		messagebox.showerror(title='Search Employee Error', message=error)
-
+# Update employee in database
 def update_employee_db(id, fname, sname, start_date):
 	try:
 		con = sqlite3.connect("employeeLeave.db")
@@ -144,26 +103,26 @@ def update_employee_db(id, fname, sname, start_date):
 	except Exception as error:
 		messagebox.showerror(title='Update Employee Error', message=error)
 
+# ##############################################################################################
+# DATABSE FUNCTIONS
+# ##############################################################################################
 
+# Collect infor from database
+def collect_data(table):
+	try:
+		con = sqlite3.connect("employeeLeave.db")
+		c = con.cursor()
 
+		# Turn on foreign keys
+		c.execute('PRAGMA foreign_keys = ON')
 
-# MAKE INSERT AND COLLECT FUNCTIONS
-
-
-
-
-
-
-
-
-
-# c.execute("INSERT INTO employees (ID, firstName, lastName, startDate) VALUES('910610', 'Devon', 'Schuin', '01/01/2025')")
-# c.execute("INSERT INTO annualLeave (ID, leaveTaken, leaveStart, leaveEnd) VALUES('910610', 0, '0', '0')")
-# c.execute("INSERT INTO annualLeave (ID, leaveTaken, leaveStart, leaveEnd) VALUES('910610', 22, '22', '22')")
-
-
-# c.execute("SELECT * FROM employees")
-# c.execute("SELECT * FROM annualLeave")
-# records = c.fetchall()
-
-# print(records)
+		c.execute(f"SELECT * FROM {table}")
+		records = c.fetchall()
+		
+		con.commit()
+		con.close()
+		
+		return records
+	
+	except Exception as error:
+		messagebox.showerror(title='Add Employee Error', message=error)
