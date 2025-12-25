@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from dateutil import parser
 from tkinter import messagebox
+import annual_leave as al
 
 # ##############################################################################################
 # INITIALIZE DATABASE
@@ -131,8 +132,8 @@ def delete_employee_db(id):
 # DATABSE FUNCTIONS
 # ##############################################################################################
 
-# Collect infor from database
-def collect_data(table):
+# Collect info from database for tree view
+def collect_data_tree():		
 	try:
 		con = sqlite3.connect("employeeLeave.db")
 		c = con.cursor()
@@ -140,13 +141,18 @@ def collect_data(table):
 		# Turn on foreign keys
 		c.execute('PRAGMA foreign_keys = ON')
 
-		c.execute(f"SELECT * FROM {table}")
-		records = c.fetchall()
+		c.execute(f"SELECT * FROM employees")
+		emp_rec = c.fetchall()
+
+		c.execute(f"SELECT * FROM annualLeave")
+		leave_taken = c.fetchall()
+
+		empoyee_info = al.cal_acc_leave(emp_rec, leave_taken)
 		
 		con.commit()
 		con.close()
 		
-		return records
+		return empoyee_info
 	
 	except Exception as error:
 		messagebox.showerror(title='Add Employee Error', message=error)

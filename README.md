@@ -11,6 +11,8 @@ Tracks leave and sick leave accumulated and taken by employee.
 ### <ins>Currently Working On</ins>
 
 ##### <ins>GUI</ins>
+
+###### <ins>Employee Setup</ins>
 - ~Add employee~
 	- ~Sort date format~
 
@@ -20,18 +22,30 @@ Tracks leave and sick leave accumulated and taken by employee.
 - ~Clear button~
 
 - Delete employee
-	- Add Delete button and function
+	- ~Add Delete button and function~
 	- When deleting employee make back up of leave acc and taken (excel)
 	  also cascade deletion
 
+###### <ins>Leave</ins>
+
+- Add annual leave
+
+- Add sick leave
+
+- Show all leave and sick leave taken (excel)
+
 ##### <ins>Functionality</ins>
+- ~Show annual leave available in table~
+
+- Show sick leave available in table
+
 - Add accumlated leave
 
 - Add leave taken
 
 - Add sick leave taken
 
-- See leave acc and leave taken (Annual and Sick)
+- See total leave acc and leave taken (Annual and Sick)
 
 - Store medical certifcates
 

@@ -6,7 +6,7 @@ root = Tk()
 
 # Add our data to the screen
 def builder():
-	records = db.collect_data('employees')
+	records = db.collect_data_tree()
 
 	my_tree.delete(*my_tree.get_children())
 
@@ -14,9 +14,9 @@ def builder():
 	count = 0
 	for record in records:
 		if count % 2 == 0:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3]), tags=('evenrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('evenrow',))
 		else:
-			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3]), tags=('oddrow',))
+			my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('oddrow',))
 		# increment counter
 		count += 1
 	
@@ -56,14 +56,15 @@ my_tree.pack()
 tree_scroll.config(command=my_tree.yview)
 
 # Define Columns
-my_tree['columns'] = ("ID", "First Name", "Last Name", "Start Date")
+my_tree['columns'] = ("ID", "First Name", "Last Name", "Start Date", "Leave Available")
 
 # Format Columns
 my_tree.column("#0", width=0, stretch=NO)
-my_tree.column("ID", anchor=W, width=200)
-my_tree.column("First Name", anchor=W, width=200)
-my_tree.column("Last Name", anchor=W, width=200)
+my_tree.column("ID", anchor=W, width=150)
+my_tree.column("First Name", anchor=W, width=150)
+my_tree.column("Last Name", anchor=W, width=150)
 my_tree.column("Start Date", anchor=CENTER, width=100)
+my_tree.column("Leave Available", anchor=CENTER, width=110)
 
 # Create Headings
 my_tree.heading("#0", text="", anchor=W)
@@ -71,6 +72,7 @@ my_tree.heading("ID", text="ID", anchor=W)
 my_tree.heading("First Name", text="First Name", anchor=W)
 my_tree.heading("Last Name", text="Last Name", anchor=W)
 my_tree.heading("Start Date", text="Start Date", anchor=CENTER)
+my_tree.heading("Leave Available", text="Leave Available", anchor=CENTER)
 
 # Create Striped Row Tags
 my_tree.tag_configure('oddrow', background="white")
@@ -169,7 +171,7 @@ def select_record(e):
 
 # Data Frame
 data_frame = LabelFrame(root, text="Record")
-data_frame.pack(fill="x", expand="yes", padx=20)
+data_frame.pack(fill="x", expand="no", padx=20)
 
 id_label = Label(data_frame, text="ID")
 id_label.grid(row=0, column=0, padx=10, pady=10)
@@ -193,7 +195,7 @@ start_entry.grid(row=0, column=7, padx=10, pady=10)
 
 # Setup Frame
 setup_frame = LabelFrame(root, text="Setup Employees")
-setup_frame.pack(fill="x", expand="yes", padx=20)
+setup_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
 
 clear_button = Button(setup_frame, text='Clear', width=12, command=clear_input)
 clear_button.grid(row=0, column=0, padx=10, pady=10)
