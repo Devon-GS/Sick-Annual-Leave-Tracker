@@ -5,7 +5,7 @@ from tkinter import messagebox
 from datetime import datetime
 from dateutil import parser
 from dateutil import relativedelta
-# import annual_leave as al
+
 
 # ##############################################################################################
 # INITIALIZE DATABASE
@@ -210,7 +210,7 @@ def add_annual_leave_db(id, fname, sname):
 		top = Toplevel()
 		top.attributes('-topmost', 'true')
 		top.geometry("300x300")
-		top.title("Rule Name")
+		top.title("Add Annual Leave")
 
 		# ID
 		id_label = Label(top, text="ID:")

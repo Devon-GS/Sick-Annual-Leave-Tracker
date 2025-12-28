@@ -172,7 +172,7 @@ def select_record(e):
 	# ###############
 	# LEAVE
 	# ###############
-def annual_leave():
+def add_annual_leave():
 	id = id_entry.get()
 	fname = first_entry.get()
 	sname = last_entry.get()
@@ -186,6 +186,9 @@ def annual_leave():
 	first_entry.delete(0, END)
 	last_entry.delete(0, END)
 	start_entry.delete(0, END)
+
+def edit_leave():
+	pass
 
 # ##############################################################################################
 # WIDGETS
@@ -235,8 +238,11 @@ delete_employee_button.grid(row=0, column=3, padx=10, pady=10)
 leave_frame = LabelFrame(root, text="Leave")
 leave_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
 
-add_annual_button = Button(leave_frame, text='Add Annual Leave Taken', width=19, command=annual_leave)
+add_annual_button = Button(leave_frame, text='Add Annual Leave Taken', width=19, command=add_annual_leave)
 add_annual_button.grid(row=0, column=0, padx=10, pady=10)
+
+edit_annual_button = Button(leave_frame, text='Add Annual Leave Taken', width=19, command=edit_leave)
+edit_annual_button.grid(row=0, column=0, padx=10, pady=10)
 
 # Bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
