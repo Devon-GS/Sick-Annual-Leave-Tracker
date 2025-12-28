@@ -28,7 +28,9 @@ Tracks leave and sick leave accumulated and taken by employee.
 
 ###### <ins>Leave</ins>
 
-- Add annual leave
+- ~Add annual leave~
+
+- Edit annual leave
 
 - Add sick leave
 

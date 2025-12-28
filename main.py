@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import database as db
-from annual_leave import add_annual_leave
+
 
 root = Tk()
 
@@ -177,8 +177,8 @@ def annual_leave():
 	fname = first_entry.get()
 	sname = last_entry.get()
 	
-	# Send data to add annual leave
-	add_annual_leave(id, fname, sname)
+	# Send data to add annual leave	
+	db.add_annual_leave_db(id, fname, sname)
 
 
 
