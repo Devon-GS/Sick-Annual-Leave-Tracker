@@ -180,7 +180,12 @@ def annual_leave():
 	# Send data to add annual leave	
 	db.add_annual_leave_db(id, fname, sname)
 
-
+	# Clear entry boxes
+	id_entry.config(state="normal")
+	id_entry.delete(0, END)
+	first_entry.delete(0, END)
+	last_entry.delete(0, END)
+	start_entry.delete(0, END)
 
 # ##############################################################################################
 # WIDGETS

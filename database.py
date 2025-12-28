@@ -4,7 +4,8 @@ from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
 from dateutil import parser
-import annual_leave as al
+from dateutil import relativedelta
+# import annual_leave as al
 
 # ##############################################################################################
 # INITIALIZE DATABASE
@@ -36,6 +37,68 @@ if not os.path.exists('employeeLeave.db'):
 
 	con.commit()
 	con.close()
+
+# ##############################################################################################
+# TREE VIEW FUNCTIONS
+# ##############################################################################################
+
+# Collect info from database for tree view
+def collect_data_tree():		
+	try:
+		con = sqlite3.connect("employeeLeave.db")
+		c = con.cursor()
+
+		# Turn on foreign keys
+		c.execute('PRAGMA foreign_keys = ON')
+
+		c.execute(f"SELECT * FROM employees")
+		emp_rec = c.fetchall()
+
+		c.execute(f"SELECT * FROM annualLeave")
+		leave_taken = c.fetchall()
+		
+		con.commit()
+		con.close()
+		
+		# Get date now
+		now = datetime.now()
+		date_now = now.strftime("%d/%m/%Y")
+
+		# Make into list
+		rec_list = []
+
+		for x in emp_rec:
+			rec_list.append([x[0], x[1], x[2], x[3]])
+
+		# Add leave days to employee info
+		empolyee_info = []
+
+		for rec in rec_list:
+			# convert string to date object
+			start_date = datetime.strptime(rec[3], "%d/%m/%Y")
+			end_date = datetime.strptime(date_now, "%d/%m/%Y")
+
+			# Get the relativedelta between two dates
+			delta = relativedelta.relativedelta(end_date, start_date)
+
+			# Get months difference
+			months = delta.months + (delta.years * 12)
+			leave_days = months * 1.25
+			
+			# Get leave days already taken
+			for leave in leave_taken:
+				if rec[0] == leave[0]:
+					leave_days -= leave[1]
+
+			# Add leave days to eployee data
+			emp_info = rec + [leave_days]
+			# print(emp_info)
+			empolyee_info.append(emp_info)
+
+			return empolyee_info
+		
+	except Exception as error:
+		messagebox.showerror(title='Add Employee Error', message=error)
 
 # ##############################################################################################
 # SETUP EMPLOYEE FUNCTIONS
@@ -133,30 +196,6 @@ def delete_employee_db(id):
 # DATABSE FUNCTIONS
 # ##############################################################################################
 
-# Collect info from database for tree view
-def collect_data_tree():		
-	try:
-		con = sqlite3.connect("employeeLeave.db")
-		c = con.cursor()
-
-		# Turn on foreign keys
-		c.execute('PRAGMA foreign_keys = ON')
-
-		c.execute(f"SELECT * FROM employees")
-		emp_rec = c.fetchall()
-
-		c.execute(f"SELECT * FROM annualLeave")
-		leave_taken = c.fetchall()
-
-		empoyee_info = al.cal_acc_leave(emp_rec, leave_taken)
-		
-		con.commit()
-		con.close()
-		
-		return empoyee_info
-	
-	except Exception as error:
-		messagebox.showerror(title='Add Employee Error', message=error)
 
 
 # ##################
