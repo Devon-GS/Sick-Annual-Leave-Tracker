@@ -277,6 +277,21 @@ def collect_data_view():
 
 		return emp_info
 
+def collect_data_docs():
+	con = sqlite3.connect(database_path)
+	c = con.cursor()
+
+	# Turn on foreign keys
+	c.execute('PRAGMA foreign_keys = ON')
+
+	c.execute(f"SELECT * FROM employees")
+	employees = c.fetchall()
+	
+	con.commit()
+	con.close()
+
+	return employees
+
 # ##############################################################################################
 # SETUP EMPLOYEE FUNCTIONS
 # ##############################################################################################

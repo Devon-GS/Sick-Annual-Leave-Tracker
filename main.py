@@ -2,6 +2,7 @@ import database as db
 import annual_leave
 import sick_leave
 import view_leave
+import med_docs
 from tkinter import *
 from tkinter import ttk
 
@@ -218,6 +219,20 @@ def add_sick_leave():
 	my_tree.delete(*my_tree.get_children())
 	builder()
 
+def open_med():
+	fname = first_entry.get().strip()
+	sname = last_entry.get().strip()
+
+	# Send data to open med docs
+	med_docs.open_med_doc(fname, sname)
+
+	# Clear entry boxes
+	id_entry.config(state="normal")
+	id_entry.delete(0, END)
+	first_entry.delete(0, END)
+	last_entry.delete(0, END)
+	start_entry.delete(0, END)
+
 # ##############################################################################################
 # WIDGETS
 # ##############################################################################################
@@ -287,8 +302,8 @@ doc_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
 view_leave_button = Button(doc_frame, text='View All Leave', width=19, command=view_leave.view_all_leave)
 view_leave_button.grid(row=0, column=0, padx=10, pady=10)
 
-# upload_docs_button = Button(doc_frame, text='Upload Medical Documents', width=19, command=view_leave)
-# upload_docs_button.grid(row=0, column=1, padx=10, pady=10)
+upload_docs_button = Button(doc_frame, text='Upload Medical Documents', width=21, command=open_med)
+upload_docs_button.grid(row=0, column=1, padx=10, pady=10)
 
 # Bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
