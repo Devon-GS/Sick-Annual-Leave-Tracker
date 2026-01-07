@@ -1,7 +1,17 @@
 import os
+import sys
+from tkinter import messagebox
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, NamedStyle, Font, Border, Side
 from database import collect_data_view
+
+def get_save_path(filename):
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+
+    return os.path.join(base_path, filename)
 
 def view_all_leave():
 	# Collect data
@@ -127,8 +137,13 @@ def view_all_leave():
 		wb.move_sheet(ws, offset=move_distance)
 
 	# Save the file
-	wb.save("allLeave.xlsx")
-	os.system('start "EXCEL.EXE" allLeave.xlsx')
+	save_path = get_save_path('allLeave.xlsx')
+
+	try:
+		wb.save(save_path)
+		os.startfile(save_path)
+	except Exception as error:
+		messagebox.showerror(title='View Leave Error', message=error)
 
 # ###########################################################################################
 # EVERYTHING ON ONE SHEETM(???)

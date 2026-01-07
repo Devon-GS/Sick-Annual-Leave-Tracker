@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import sys
 from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
@@ -9,11 +10,34 @@ from dateutil import relativedelta
 
 
 # ##############################################################################################
+# GET DATABASE LOCATION
+# ##############################################################################################
+
+def get_db_path(db_filename):
+    """
+    Returns the path to the database.
+    - If Frozen (EXE): Returns path inside the _internal folder.
+    - If Live (Dev): Returns path in the project folder.
+    """
+    if getattr(sys, 'frozen', False):
+        # sys._MEIPASS points to the _internal folder in --onedir mode
+        base_path = sys._MEIPASS
+    else:
+        # We are running as a normal Python script
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        
+    return os.path.join(base_path, db_filename)
+
+
+# ##############################################################################################
 # INITIALIZE DATABASE
 # ##############################################################################################
 
-if not os.path.exists('employeeLeave.db'):
-	con = sqlite3.connect("employeeLeave.db")
+# Get database path
+database_path = get_db_path('employeeLeave.db')
+
+if not os.path.exists(database_path):
+	con = sqlite3.connect(database_path)
 	c = con.cursor()
 
 	# Turn on foreign keys
@@ -57,7 +81,7 @@ if not os.path.exists('employeeLeave.db'):
 # Collect info from database for tree view
 def collect_data_tree():		
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -162,7 +186,7 @@ def collect_data_tree():
 
 def collect_data_annual_leave_tree():		
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -181,7 +205,7 @@ def collect_data_annual_leave_tree():
 
 def collect_data_sick_leave_tree():		
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -199,7 +223,7 @@ def collect_data_sick_leave_tree():
 		messagebox.showerror(title='Add Employee Error', message=error)
 
 def collect_data_view():
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -260,7 +284,7 @@ def collect_data_view():
 # Add employee to database
 def add_employee_db(id, fname, sname, start):
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -293,7 +317,7 @@ def add_employee_db(id, fname, sname, start):
 # Update employee in database
 def update_employee_db(id, fname, sname, start_date):
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -324,7 +348,7 @@ def update_employee_db(id, fname, sname, start_date):
 # Update employee in database
 def delete_employee_db(id):
 	try:
-		con = sqlite3.connect("employeeLeave.db")
+		con = sqlite3.connect(database_path)
 		c = con.cursor()
 
 		# Turn on foreign keys
@@ -413,7 +437,7 @@ def add_annual_leave_db(id, fname, sname):
 
 			# Add leave to database
 			try:
-				con = sqlite3.connect("employeeLeave.db")
+				con = sqlite3.connect(database_path)
 				c = con.cursor()
 
 				# Turn on foreign keys
@@ -479,7 +503,7 @@ def update_leave_db(top, id, days, start_date, end_date):
 			parent=top)
 
 			if response == 1:
-				con = sqlite3.connect("employeeLeave.db")
+				con = sqlite3.connect(database_path)
 				c = con.cursor()
 
 				# Turn on foreign keys
@@ -514,7 +538,7 @@ def delete_leave_db(top, id, start_date, end_date):
 			parent=top)
 		
 		if response == 1:
-			con = sqlite3.connect("employeeLeave.db")
+			con = sqlite3.connect(database_path)
 			c = con.cursor()
 
 			# Turn on foreign keys
@@ -604,7 +628,7 @@ def add_sick_leave_db(id, fname, sname):
 
 			# Add leave to database
 			try:
-				con = sqlite3.connect("employeeLeave.db")
+				con = sqlite3.connect(database_path)
 				c = con.cursor()
 
 				# Turn on foreign keys
@@ -670,7 +694,7 @@ def update_sick_leave_db(top, id, days, start_date, end_date):
 			parent=top)
 
 			if response == 1:
-				con = sqlite3.connect("employeeLeave.db")
+				con = sqlite3.connect(database_path)
 				c = con.cursor()
 
 				# Turn on foreign keys
@@ -705,7 +729,7 @@ def delete_sick_leave_db(top, id, start_date, end_date):
 			parent=top)
 		
 		if response == 1:
-			con = sqlite3.connect("employeeLeave.db")
+			con = sqlite3.connect(database_path)
 			c = con.cursor()
 
 			# Turn on foreign keys
