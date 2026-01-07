@@ -42,11 +42,7 @@ Tracks leave and sick leave accumulated and taken by employee.
 
 - ~Show sick leave available in table~
 
-- Show all leave and sick leave taken (excel)
-
-##### <ins>Functionality</ins>
-
-- See total leave acc and leave taken (Annual and Sick)
+- ~Show all leave and sick leave taken (excel)~
 
 - Store medical certifcates
 

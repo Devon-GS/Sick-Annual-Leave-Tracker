@@ -1,6 +1,7 @@
 import database as db
 import annual_leave
 import sick_leave
+import view_leave
 from tkinter import *
 from tkinter import ttk
 
@@ -197,9 +198,6 @@ def add_annual_leave():
 	my_tree.delete(*my_tree.get_children())
 	builder()
 
-def edit_annual_leave():
-	annual_leave.edit()
-
 def add_sick_leave():
 	id = id_entry.get()
 	fname = first_entry.get()
@@ -219,12 +217,6 @@ def add_sick_leave():
 	# Refresh
 	my_tree.delete(*my_tree.get_children())
 	builder()
-
-def edit_sick_leave():
-	sick_leave.edit()
-
-def view_leave():
-	pass
 
 # ##############################################################################################
 # WIDGETS
@@ -279,20 +271,20 @@ leave_frame.grid_columnconfigure(2, weight=1)
 add_annual_button = Button(leave_frame, text='Add Annual Leave Taken', width=19, command=add_annual_leave)
 add_annual_button.grid(row=0, column=0, padx=10, pady=10)
 
-edit_annual_button = Button(leave_frame, text='Edit Annual Leave', width=19, command=edit_annual_leave)
+edit_annual_button = Button(leave_frame, text='Edit Annual Leave', width=19, command=annual_leave.edit)
 edit_annual_button.grid(row=0, column=1, padx=10, pady=10)
 
 add_sick_button = Button(leave_frame, text='Add Sick Leave Taken', width=19, command=add_sick_leave)
 add_sick_button.grid(row=0, column=2, padx=10, pady=10, sticky=E)
 
-edit_sick_button = Button(leave_frame, text='Edit Sick Leave', width=19, command=edit_sick_leave)
+edit_sick_button = Button(leave_frame, text='Edit Sick Leave', width=19, command=sick_leave.edit)
 edit_sick_button.grid(row=0, column=3, padx=10, pady=10, sticky=E)
 
 # Document Frame
 doc_frame = LabelFrame(root, text="Documents")
 doc_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
 
-view_leave_button = Button(doc_frame, text='View All Leave', width=19, command=view_leave)
+view_leave_button = Button(doc_frame, text='View All Leave', width=19, command=view_leave.view_all_leave)
 view_leave_button.grid(row=0, column=0, padx=10, pady=10)
 
 # upload_docs_button = Button(doc_frame, text='Upload Medical Documents', width=19, command=view_leave)

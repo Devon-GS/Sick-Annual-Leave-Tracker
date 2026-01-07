@@ -1,114 +1,134 @@
 import os
 from openpyxl import Workbook
+from openpyxl.styles import Alignment, NamedStyle, Font, Border, Side
 from database import collect_data_view
 
-# BUILD OUT WITH OPENPYXL A EXCEL SHEET
-# OPEN ONCE BUILT
+def view_all_leave():
+	# Collect data
+	records = collect_data_view()
 
-# FORMATING OF WORKBOOK
+	# Format setup
+	hd_format = NamedStyle(name="heading_format")
+	hd_format.font = Font(bold=True, underline='single')
 
-records = collect_data_view()
+	headings = {'A': 14.50, 'B': 20.78, 'C': 20.78, 'D': 10.60}
 
-wb = Workbook()
+	# Start woorkbook
+	wb = Workbook()
 
-# Delete first sheet
-del wb['Sheet']
+	# Delete first sheet
+	del wb['Sheet']
 
-for id, rec in records.items():
-	ws = wb.create_sheet(rec['info'][0])
+	# Add style
+	wb.add_named_style(hd_format)
 
-	# Start row and col
-	i_row = 0
-	al_row = 0
-	sl_row = 0
+	# Loop through employee info and create wookbook
+	for id, rec in records.items():
+		ws = wb.create_sheet(rec['info'][0])
 
-	# EMPLOYEE INFO
-	# Add heading
-	ws['A1'] = 'ID'
-	ws['B1'] = 'Name'
-	ws['C1'] = 'Surname'
-	ws['D1'] = 'Start Date'
+		# Start row and col
+		i_row = 0
+		al_row = 0
+		sl_row = 0
 
-	# Add info
-	ws['A2'] = id
-	ws['B2'] = rec['info'][0]
-	ws['C2'] = rec['info'][1]
-	ws['D2'] = rec['info'][2]
+		# EMPLOYEE INFO
+		# Add heading
+		ws['A1'] = 'ID'
+		ws['B1'] = 'Name'
+		ws['C1'] = 'Surname'
+		ws['D1'] = 'Start Date'
 
-	# Employee format
-	
-		 
+		# Add info
+		ws['A2'] = id
+		ws['B2'] = rec['info'][0]
+		ws['C2'] = rec['info'][1]
+		ws['D2'] = rec['info'][2]
 
-	# ANNUAL LEAVE
-	# Add annual leave headers
-	ws[f'A{4}'] = 'Annual Leave'
-	ws[f'A{5}'] = 'ID'
-	ws[f'B{5}'] = 'Number Of Days'
-	ws[f'C{5}'] = 'Start Date'
-	ws[f'D{5}'] = 'End Date'
+		# Employee format
+		for col, size in headings.items():
+			ws.column_dimensions[col].width = size
+			ws[f'{col}1'].style = 'heading_format'
 
-	# Add employee annual leave
-	for al in rec['annual']:
-		ws[f'A{6 + al_row}'] = id
-		ws[f'B{6 + al_row}'] = al[0]
-		ws[f'C{6 + al_row}'] = al[1]
-		ws[f'D{6 + al_row}'] = al[2]
+		# check leave
+		check_annual = 'annual' in rec
+		check_sick = 'sick' in rec
 
-		al_row += 1
+		# ANNUAL LEAVE
+		if check_annual == True:
+			# Add annual leave headers
+			ws[f'A{4}'] = 'ANNUAL LEAVE'
+			ws[f'A{5}'] = 'ID'
+			ws[f'B{5}'] = 'Number Of Days'
+			ws[f'C{5}'] = 'Start Date'
+			ws[f'D{5}'] = 'End Date'
 
-	# SICK LEAVE
-	# Get lenght of annual leave list
-	al_len = 6 + len(rec['annual'])
+			# Add employee annual leave
+			for al in rec['annual']:
+				ws[f'A{6 + al_row}'] = id
+				ws[f'B{6 + al_row}'] = al[0]
+				ws[f'C{6 + al_row}'] = al[1]
+				ws[f'D{6 + al_row}'] = al[2]
 
-	# Add sick leave headers
-	ws[f'A{al_len + 1}'] = 'Sick Leave'
-	ws[f'A{al_len + 2}'] = 'ID'
-	ws[f'B{al_len + 2}'] = 'Number Of Days'
-	ws[f'C{al_len + 2}'] = 'Start Date'
-	ws[f'D{al_len + 2}'] = 'End Date'
+				al_row += 1
 
-	# Add employee annual leave
-	for sl in rec['sick']:
-		ws[f'A{al_len + 3 + sl_row}'] = id
-		ws[f'B{al_len + 3 + sl_row}'] = sl[0]
-		ws[f'C{al_len + 3 + sl_row}'] = sl[1]
-		ws[f'D{al_len + 3 + sl_row}'] = sl[2]
+		# Annual leave format
+		ws['A4'].font = Font(bold=True)
 
-		sl_row += 1
+		for col in headings.keys():
+			ws[f'{col}5'].style = 'heading_format'
 
+		# SICK LEAVE
+		# Get lenght of annual leave list
+		if check_annual == True:
+			al_len = 6 + len(rec['annual'])
 
+		# Add sick leave headers
+		if check_sick == True:
+			ws[f'A{al_len + 1}'] = 'SICK LEAVE'
+			ws[f'A{al_len + 2}'] = 'ID'
+			ws[f'B{al_len + 2}'] = 'Number Of Days'
+			ws[f'C{al_len + 2}'] = 'Start Date'
+			ws[f'D{al_len + 2}'] = 'End Date'
 
+			# Add employee annual leave
+			for sl in rec['sick']:
+				ws[f'A{al_len + 3 + sl_row}'] = id
+				ws[f'B{al_len + 3 + sl_row}'] = sl[0]
+				ws[f'C{al_len + 3 + sl_row}'] = sl[1]
+				ws[f'D{al_len + 3 + sl_row}'] = sl[2]
 
+				sl_row += 1
 
+			# Sick leave format
+			ws[f'A{al_len + 1}'].font = Font(bold=True)
 
+			for col in headings.keys():
+				ws[f'{col}{al_len + 2}'].style = 'heading_format'
 
+			# Align all coloumns
+			for col in headings.keys():
+				for cell in ws[col]:
+					cell.alignment = Alignment(horizontal='center')
 
-# Save the file
-wb.save("sample.xlsx")
-os.system('start "EXCEL.EXE" sample.xlsx')
+	# ORDER SHEETS
+	# Get all sheet names and sort them alphabetically
+	sorted_sheet_names = sorted(wb.sheetnames)
 
+	# Loop through the sorted names and move each sheet to the correct position
+	for index, sheet_name in enumerate(sorted_sheet_names):
+		# Find the sheet's current index (position)
+		ws = wb[sheet_name]
+		current_index = wb.index(ws)
+		
+		# Calculate how far to move it (Target Position - Current Position)
+		move_distance = index - current_index
+		
+		# Move the sheet
+		wb.move_sheet(ws, offset=move_distance)
 
-# # ORDER SHEETS
-# # Load your workbook
-# wb = openpyxl.load_workbook('example.xlsx')
-
-# # Get all sheet names and sort them alphabetically
-# sorted_sheet_names = sorted(wb.sheetnames)
-
-# # Loop through the sorted names and move each sheet to the correct position
-# for index, sheet_name in enumerate(sorted_sheet_names):
-#     # Find the sheet's current index (position)
-#     ws = wb[sheet_name]
-#     current_index = wb.index(ws)
-    
-#     # Calculate how far to move it (Target Position - Current Position)
-#     move_distance = index - current_index
-    
-#     # Move the sheet
-#     wb.move_sheet(ws, offset=move_distance)
-
-# # Save the file
-# wb.save('sorted_example.xlsx')
+	# Save the file
+	wb.save("allLeave.xlsx")
+	os.system('start "EXCEL.EXE" allLeave.xlsx')
 
 # ###########################################################################################
 # EVERYTHING ON ONE SHEETM(???)
@@ -120,7 +140,6 @@ os.system('start "EXCEL.EXE" sample.xlsx')
 # air = 0
 # # Sick information row
 # sir = 0
-
 
 # for id, rec in records.items():
 # 	# Employee info
