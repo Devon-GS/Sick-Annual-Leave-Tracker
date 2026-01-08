@@ -47,6 +47,19 @@ Tracks leave and sick leave accumulated and taken by employee.
 
 - ~Store medical certifcates~
 
+###### <ins>Edits</ins>
+ - Make option for notes on add leave and sick leave
+
+ - Add edit of notes to edit leave and sick leave
+
+ - Add notes next to leave in view all leave
+
+ - Long term employee gets 20day leave every 12 months (son)
+
+ - Add button that open excell sheet to save wages rates
+
+ - For sick leave for 6 months get earn 1 day for every 26 days worked (month)
+
 ### <ins>How to install</ins>
 
 Create environment:
