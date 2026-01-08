@@ -18,9 +18,9 @@ def edit():
 		count = 0
 		for record in records:
 			if count % 2 == 0:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('evenrow',))
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('evenrow',))
 			else:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('oddrow',))
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('oddrow',))
 			# increment counter
 			count += 1
 
@@ -60,23 +60,25 @@ def edit():
 	tree_scroll.config(command=my_tree.yview)
 
 	# Define Columns
-	my_tree['columns'] = ("ID", "First Name", "Annual Leave Days", "Start Date", "End Date")
+	my_tree['columns'] = ("ID", "First Name", "Annual Leave Days", "Start Date", "End Date", "Comment")
 
 	# Format Columns
 	my_tree.column("#0", width=0, stretch=NO)
-	my_tree.column("ID", anchor=W, width=150)
-	my_tree.column("First Name", anchor=W, width=150)
-	my_tree.column("Annual Leave Days", anchor=W, width=150)
+	my_tree.column("ID", anchor=CENTER, width=150)
+	my_tree.column("First Name", anchor=CENTER, width=150)
+	my_tree.column("Annual Leave Days", anchor=CENTER, width=105)
 	my_tree.column("Start Date", anchor=CENTER, width=100)
 	my_tree.column("End Date", anchor=CENTER, width=110)
+	my_tree.column("Comment", anchor=W, width=400)
 
 	# Create Headings
 	my_tree.heading("#0", text="", anchor=W)
-	my_tree.heading("ID", text="ID", anchor=W)
-	my_tree.heading("First Name", text="First Name", anchor=W)
-	my_tree.heading("Annual Leave Days", text="Annual Leave Days", anchor=W)
+	my_tree.heading("ID", text="ID", anchor=CENTER)
+	my_tree.heading("First Name", text="First Name", anchor=CENTER)
+	my_tree.heading("Annual Leave Days", text="Annual Leave Days", anchor=CENTER)
 	my_tree.heading("Start Date", text="Start Date", anchor=CENTER)
 	my_tree.heading("End Date", text="End Date", anchor=CENTER)
+	my_tree.heading("Comment", text="Comment", anchor=CENTER)
 
 	# Create Striped Row Tags
 	my_tree.tag_configure('oddrow', background="white")

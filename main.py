@@ -66,18 +66,18 @@ my_tree['columns'] = ("ID", "First Name", "Last Name", "Start Date", "Leave Avai
 
 # Format Columns
 my_tree.column("#0", width=0, stretch=NO)
-my_tree.column("ID", anchor=W, width=150)
-my_tree.column("First Name", anchor=W, width=150)
-my_tree.column("Last Name", anchor=W, width=150)
+my_tree.column("ID", anchor=CENTER, width=150)
+my_tree.column("First Name", anchor=CENTER, width=150)
+my_tree.column("Last Name", anchor=CENTER, width=150)
 my_tree.column("Start Date", anchor=CENTER, width=80)
 my_tree.column("Leave Available", anchor=CENTER, width=90)
 my_tree.column("Sick Leave Available", anchor=CENTER, width=110)
 
 # Create Headings
 my_tree.heading("#0", text="", anchor=W)
-my_tree.heading("ID", text="ID", anchor=W)
-my_tree.heading("First Name", text="First Name", anchor=W)
-my_tree.heading("Last Name", text="Last Name", anchor=W)
+my_tree.heading("ID", text="ID", anchor=CENTER)
+my_tree.heading("First Name", text="First Name", anchor=CENTER)
+my_tree.heading("Last Name", text="Last Name", anchor=CENTER)
 my_tree.heading("Start Date", text="Start Date", anchor=CENTER)
 my_tree.heading("Leave Available", text="Leave Available", anchor=CENTER)
 my_tree.heading("Sick Leave Available", text="Sick Leave Available", anchor=CENTER)

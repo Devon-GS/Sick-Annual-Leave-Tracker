@@ -57,6 +57,7 @@ if not os.path.exists(database_path):
 			leaveTaken INTEGER,
 			leaveStart TEXT,
 			leaveEnd TEXT,
+			comment TEXT,
 			FOREIGN KEY (ID) REFERENCES employees (ID)
 			ON DELETE CASCADE
 			)'''
@@ -68,6 +69,7 @@ if not os.path.exists(database_path):
 			leaveTaken INTEGER,
 			leaveStart TEXT,
 			leaveEnd TEXT,
+			comment TEXT,
 			FOREIGN KEY (ID) REFERENCES employees (ID)
 			ON DELETE CASCADE
 			)'''
@@ -414,7 +416,7 @@ def add_annual_leave_db(id, fname, sname):
 	else:
 		top = Toplevel()
 		top.attributes('-topmost', 'true')
-		top.geometry("300x300")
+		# top.geometry("300x1000")
 		top.title("Add Annual Leave")
 
 		# ID
@@ -458,12 +460,19 @@ def add_annual_leave_db(id, fname, sname):
 		leave_end_label.grid(row=5, column=0, padx=10, pady=10)
 		leave_end_entry = Entry(top)
 		leave_end_entry.grid(row=5, column=1, padx=10, pady=10)
+		
+		# Comment
+		comment_label = Label(top, text="Comment:")
+		comment_label.grid(row=6, column=0, padx=10, pady=10)
+		comment_entry = Text(top, height = 5, width = 20)
+		comment_entry.grid(row=6, column=1, columnspan=2, padx=10, pady=10)
 
 		def save():
 			id = id_entry.get()
 			leave_days = leave_entry.get()
 			leave_start = leave_start_entry.get()
 			leave_end = leave_end_entry.get()
+			comment = comment_entry.get("1.0", "end-1c")
 
 			# Add leave to database
 			try:
@@ -482,13 +491,14 @@ def add_annual_leave_db(id, fname, sname):
 					response = messagebox.askyesno(title='Add Employee Annual Leave', message='Some Employee Info Blank. Is This OK?')
 					
 					if response == 1:
-						c.execute("INSERT INTO annualLeave VALUES (:id, :firstName, :leaveTaken, :leaveStart, :leaveEnd)",
+						c.execute("INSERT INTO annualLeave VALUES (:id, :firstName, :leaveTaken, :leaveStart, :leaveEnd, :comment)",
 								{
 									'id' : id,
 									'firstName' : fname,
 									'leaveTaken' : leave_days,
 									'leaveStart' : start_leave,
-									'leaveEnd' : end_leave
+									'leaveEnd' : end_leave,
+									'comment' : comment
 								})
 						
 						# Display complete
@@ -497,13 +507,14 @@ def add_annual_leave_db(id, fname, sname):
 						# Close window
 						top.destroy()
 				else:
-					c.execute("INSERT INTO annualLeave VALUES (:id, :firstName, :leaveTaken, :leaveStart, :leaveEnd)",
+					c.execute("INSERT INTO annualLeave VALUES (:id, :firstName, :leaveTaken, :leaveStart, :leaveEnd, :comment)",
 								{
 									'id' : id,
 									'firstName' : fname,
 									'leaveTaken' : leave_days,
 									'leaveStart' : start_leave,
-									'leaveEnd' : end_leave
+									'leaveEnd' : end_leave,
+									'comment' : comment
 								})
 					
 					# Display complete
@@ -519,7 +530,7 @@ def add_annual_leave_db(id, fname, sname):
 				messagebox.showerror(title='Add Employee Annual Leave', message=error)
 			
 		save_button = Button(top, text="Save", command=save)
-		save_button.grid(row=6, column=0, columnspan=2, sticky=NSEW, padx=10, pady=10)
+		save_button.grid(row=7, column=0, columnspan=2, sticky=NSEW, padx=10, pady=10)
 
 		return top
 	
