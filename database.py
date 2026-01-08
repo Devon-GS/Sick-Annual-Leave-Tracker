@@ -129,7 +129,10 @@ def collect_data_tree():
 
 			# Get months difference for annual leave
 			months = delta.months + (delta.years * 12)
-			leave_days = months * 1.25
+			if rec[1].lower() == 'sonja':
+				leave_days = months * (20/12)
+			else:
+				leave_days = months * 1.25
 
 			# Get leave days already taken
 			for leave in leave_taken:

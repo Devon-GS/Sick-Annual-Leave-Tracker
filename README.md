@@ -54,7 +54,7 @@ Tracks leave and sick leave accumulated and taken by employee.
 
  - Add notes next to leave in view all leave
 
- - Long term employee gets 20day leave every 12 months (son)
+ - ~Long term employee gets 20day leave every 12 months (son)~
 
  - ~Add button that open excel sheet to save wages rates~
 
