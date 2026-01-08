@@ -464,7 +464,7 @@ def add_annual_leave_db(id, fname, sname):
 		# Comment
 		comment_label = Label(top, text="Comment:")
 		comment_label.grid(row=6, column=0, padx=10, pady=10)
-		comment_entry = Text(top, height = 5, width = 20)
+		comment_entry = Text(top, height=5, width=20)
 		comment_entry.grid(row=6, column=1, columnspan=2, padx=10, pady=10)
 
 		def save():

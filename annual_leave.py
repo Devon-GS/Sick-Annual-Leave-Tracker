@@ -6,7 +6,7 @@ import database as db
 def edit():
 	top = Toplevel()
 	top.attributes('-topmost', 'true')
-	top.geometry("1150x550")
+	# top.geometry("1150x550")
 	top.title("Edit Annual Leave")
 
 	def builder():
@@ -96,6 +96,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 		
 		# Grab record Number
 		selected = my_tree.focus()
@@ -111,6 +112,7 @@ def edit():
 		leave_days_entry.insert(0, values[2])
 		start_entry.insert(0, values[3])
 		end_entry.insert(0, values[4])
+		comment_entry.insert("1.0", values[5])
 
 	def clear_input():
 		id_entry.config(state="normal")
@@ -195,10 +197,15 @@ def edit():
 	end_label.grid(row=0, column=8, padx=10, pady=10)
 	end_entry = Entry(data_frame)
 	end_entry.grid(row=0, column=9, padx=10, pady=10)
+	
+	comment_label = Label(data_frame, text="Comment")
+	comment_label.grid(row=1, column=0, padx=10, pady=10)
+	comment_entry = Text(data_frame, height=2, width=100)
+	comment_entry.grid(row=1, column=1, columnspan=9, sticky=W, padx=10, pady=10)
 
 	# Button Frame
 	button_frame = LabelFrame(top, text="Leave Buttons")
-	button_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
+	button_frame.pack(fill="x", expand="no", padx=20, pady=20)
 
 	clear_button = Button(button_frame, text='Clear', width=12, command=clear_input)
 	clear_button.grid(row=0, column=0, padx=10, pady=10)
