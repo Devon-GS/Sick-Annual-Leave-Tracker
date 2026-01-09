@@ -278,9 +278,10 @@ def collect_data_view(id=None):
 			al_days = x[2]
 			lsd = x[3]
 			led = x[4]
+			com = x[5]
 
 			# Add employee annual leave to dict
-			emp_info[id].setdefault('annual', []).append([al_days, lsd, led])
+			emp_info[id].setdefault('annual', []).append([al_days, lsd, led, com])
 
 
 		for x in sick_leave_taken:
@@ -288,9 +289,10 @@ def collect_data_view(id=None):
 			sl_days = x[2]
 			ssd = x[3]
 			sed = x[4]
+			com = x[5]
 
 			# Add employee sick leave to dict
-			emp_info[id].setdefault('sick', []).append([al_days, lsd, led])
+			emp_info[id].setdefault('sick', []).append([al_days, lsd, led, com])
 
 		return emp_info
 

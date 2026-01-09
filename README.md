@@ -52,7 +52,7 @@ Tracks leave and sick leave accumulated and taken by employee.
 
  - ~Add edit of comments to edit leave and sick leave~
 
- - Add notes next to leave in view all leave
+ - ~Add notes next to leave in view all leave~
 
  - ~Long term employee gets 20day leave every 12 months (son)~
 

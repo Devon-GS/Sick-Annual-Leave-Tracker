@@ -6,6 +6,7 @@ from openpyxl.styles import Alignment, NamedStyle, Font, Border, Side
 from database import collect_data_view
 
 
+# Get rates file
 def rates_file():
 	if getattr(sys, 'frozen', False):
 		base_path = sys._MEIPASS
@@ -24,6 +25,7 @@ def rates_file():
 		wb.save(file)
 		os.startfile(file)
 
+# View all leave
 def get_save_path(filename):
     if getattr(sys, 'frozen', False):
         base_path = sys._MEIPASS
@@ -35,12 +37,12 @@ def get_save_path(filename):
 def view_all_leave():
 	# Collect data
 	records = collect_data_view()
-
+	
 	# Format setup
 	hd_format = NamedStyle(name="heading_format")
 	hd_format.font = Font(bold=True, underline='single')
 
-	headings = {'A': 14.50, 'B': 20.78, 'C': 20.78, 'D': 10.60}
+	headings = {'A': 14.50, 'B': 20.78, 'C': 20.78, 'D': 10.60, 'E': 125.78}
 
 	# Start woorkbook
 	wb = Workbook()
@@ -90,6 +92,7 @@ def view_all_leave():
 			ws[f'B{5}'] = 'Number Of Days'
 			ws[f'C{5}'] = 'Start Date'
 			ws[f'D{5}'] = 'End Date'
+			ws[f'E{5}'] = 'Comments'
 
 			# Add employee annual leave
 			for al in rec['annual']:
@@ -97,6 +100,7 @@ def view_all_leave():
 				ws[f'B{6 + al_row}'] = al[0]
 				ws[f'C{6 + al_row}'] = al[1]
 				ws[f'D{6 + al_row}'] = al[2]
+				ws[f'E{6 + al_row}'] = al[3]
 
 				al_row += 1
 
@@ -118,6 +122,7 @@ def view_all_leave():
 			ws[f'B{al_len + 2}'] = 'Number Of Days'
 			ws[f'C{al_len + 2}'] = 'Start Date'
 			ws[f'D{al_len + 2}'] = 'End Date'
+			ws[f'E{al_len + 2}'] = 'Comments'
 
 			# Add employee annual leave
 			for sl in rec['sick']:
@@ -125,6 +130,7 @@ def view_all_leave():
 				ws[f'B{al_len + 3 + sl_row}'] = sl[0]
 				ws[f'C{al_len + 3 + sl_row}'] = sl[1]
 				ws[f'D{al_len + 3 + sl_row}'] = sl[2]
+				ws[f'E{al_len + 3 + sl_row}'] = sl[3]
 
 				sl_row += 1
 
@@ -134,10 +140,10 @@ def view_all_leave():
 			for col in headings.keys():
 				ws[f'{col}{al_len + 2}'].style = 'heading_format'
 
-			# Align all coloumns
-			for col in headings.keys():
-				for cell in ws[col]:
-					cell.alignment = Alignment(horizontal='center')
+		# Align all coloumns
+		for col in headings.keys():
+			for cell in ws[col]:
+				cell.alignment = Alignment(horizontal='center')
 
 	# ORDER SHEETS
 	# Get all sheet names and sort them alphabetically
