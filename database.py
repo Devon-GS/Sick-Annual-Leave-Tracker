@@ -535,7 +535,7 @@ def add_annual_leave_db(id, fname, sname):
 		return top
 	
 # Edit annual Leave
-def update_leave_db(top, id, days, start_date, end_date):
+def update_leave_db(top, id, days, start_date, end_date, comment):
 	try:
 		if days == '' or start_date == '' or end_date == '':
 			raise Exception("Information Empty!")
@@ -553,14 +553,19 @@ def update_leave_db(top, id, days, start_date, end_date):
 				c.execute('''UPDATE annualLeave SET
 								leaveTaken = :leaveTaken,
 								leaveStart = :leaveStart,
-								leaveEnd = :leaveEnd
+								leaveEnd = :leaveEnd,
+								comment = :comment
 					
-								WHERE id = :id''',
+								WHERE id = :id
+			  					AND leaveStart = :leaveStart 
+								AND leaveEnd = :leaveEnd
+			 					AND comment = :comment''',
 								{
 									'id' : id,
 									'leaveTaken' : days,
 									'leaveStart' : start_date,
-									'leaveEnd' : end_date
+									'leaveEnd' : end_date,
+									'comment' : comment
 								})
 				
 				con.commit()
@@ -573,7 +578,7 @@ def update_leave_db(top, id, days, start_date, end_date):
 		messagebox.showerror(title='Update Leave Error', message=error, parent=top)
 
 # Delete annual Leave
-def delete_leave_db(top, id, start_date, end_date):
+def delete_leave_db(top, id, start_date, end_date, comment):
 	try:
 		response = messagebox.askyesno(title='Delete Leave', message='Are You Sure You Want To Delete Leave Infomation', 
 			parent=top)
@@ -588,11 +593,13 @@ def delete_leave_db(top, id, start_date, end_date):
 			c.execute('''DELETE FROM annualLeave 
 						WHERE id = :id 
 						AND leaveStart = :leaveStart 
-						AND leaveEnd = :leaveEnd''',
+						AND leaveEnd = :leaveEnd
+			 			AND comment = :comment''',
 						{
 							'id' : id,
 							'leaveStart' : start_date,
-							'leaveEnd' : end_date
+							'leaveEnd' : end_date,
+							'comment' : comment
 							
 						})
 			

@@ -204,6 +204,15 @@ def add_annual_leave():
 	my_tree.delete(*my_tree.get_children())
 	builder()
 
+def edit_annual_leave():
+	# Wait for window
+	window_wait = annual_leave.edit()
+	root.wait_window(window_wait)
+
+	# Refresh
+	my_tree.delete(*my_tree.get_children())
+	builder()
+
 def add_sick_leave():
 	id = id_entry.get()
 	fname = first_entry.get()
@@ -297,7 +306,7 @@ leave_frame.grid_columnconfigure(2, weight=1)
 add_annual_button = Button(leave_frame, text='Add Annual Leave Taken', width=19, command=add_annual_leave)
 add_annual_button.grid(row=0, column=0, padx=10, pady=10)
 
-edit_annual_button = Button(leave_frame, text='Edit Annual Leave', width=19, command=annual_leave.edit)
+edit_annual_button = Button(leave_frame, text='Edit Annual Leave', width=19, command=edit_annual_leave)
 edit_annual_button.grid(row=0, column=1, padx=10, pady=10)
 
 add_sick_button = Button(leave_frame, text='Add Sick Leave Taken', width=19, command=add_sick_leave)
@@ -325,11 +334,14 @@ rates_button.grid(row=0, column=3, padx=10, pady=10)
 # Bind the treeview
 my_tree.bind("<ButtonRelease-1>", select_record)
 
+
 # ROOT WINDOW CONFIG
 root.title('Annual / Sick Leave')
 # root.iconbitmap('icons/smoking.ico')
 root.geometry("1000x620")
 # root.columnconfigure(0, weight=1)
+
+
 
 # RUN BUILDER
 builder()

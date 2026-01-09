@@ -123,14 +123,15 @@ def edit():
 		end_entry.delete(0, END)
 		comment_entry.delete("1.0", "end")
 
-	def update_leave():
+	def update_leave():			
 		id = id_entry.get()
 		days = leave_days_entry.get()
 		start_date = start_entry.get()
 		end_date = end_entry.get()
+		comment = comment_entry.get("1.0", "end-1c")
 
 		# Update info
-		db.update_leave_db(top, id, days, start_date, end_date)
+		db.update_leave_db(top, id, days, start_date, end_date, comment)
 
 		# Clear input
 		id_entry.config(state="normal")
@@ -140,6 +141,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 
 		# Refresh
 		my_tree.delete(*my_tree.get_children())
@@ -149,11 +151,12 @@ def edit():
 		id = id_entry.get()
 		start_date = start_entry.get()
 		end_date = end_entry.get()
+		comment = comment_entry.get("1.0", "end-1c")
 
 		# Delete leave
-		db.delete_leave_db(top, id, start_date, end_date)
+		db.delete_leave_db(top, id, start_date, end_date, comment)
 
-			# Clear input
+		# Clear input
 		id_entry.config(state="normal")
 		id_entry.delete(0, END)
 		first_entry.config(state="normal")
@@ -161,6 +164,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 
 		# Refresh
 		my_tree.delete(*my_tree.get_children())
@@ -222,3 +226,5 @@ def edit():
 
 	# Build tree
 	builder()
+
+	return top
