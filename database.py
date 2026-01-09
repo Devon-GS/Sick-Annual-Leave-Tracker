@@ -739,7 +739,7 @@ def add_sick_leave_db(id, fname, sname):
 		return top
 
 # Edit sick annual Leave
-def update_sick_leave_db(top, id, days, start_date, end_date, comment):
+def update_sick_leave_db(top, rowid, days, start_date, end_date, comment):
 	try:
 		if days == '' or start_date == '' or end_date == '':
 			raise Exception("Information Empty!")
@@ -760,9 +760,9 @@ def update_sick_leave_db(top, id, days, start_date, end_date, comment):
 								leaveEnd = :leaveEnd,
 								comment = :comment
 					
-								WHERE id = :id''',
+								WHERE rowid = :rowid''',
 								{
-									'id' : id,
+									'rowid' : rowid,
 									'leaveTaken' : days,
 									'leaveStart' : start_date,
 									'leaveEnd' : end_date,

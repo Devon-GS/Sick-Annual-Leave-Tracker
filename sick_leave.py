@@ -12,8 +12,6 @@ def edit():
 	def builder():
 		records = db.collect_data_sick_leave_tree()
 
-		print(records)
-
 		global count
 		count = 0
 		for record in records:
@@ -126,14 +124,18 @@ def edit():
 		comment_entry.delete("1.0", "end")
 
 	def update_leave():
-		id = id_entry.get()
 		days = leave_days_entry.get()
 		start_date = start_entry.get()
 		end_date = end_entry.get()
 		comment = comment_entry.get("1.0", "end-1c")
 
+		# Grab record and rowid number
+		selected = my_tree.focus()
+		values = my_tree.item(selected, 'values')
+		rowid = values[0]
+
 		# Update info
-		db.update_sick_leave_db(top, id, days, start_date, end_date, comment)
+		db.update_sick_leave_db(top, rowid, days, start_date, end_date, comment)
 
 		# Clear input
 		id_entry.config(state="normal")
@@ -157,7 +159,7 @@ def edit():
 		# Delete leave
 		db.delete_sick_leave_db(top, id, start_date, end_date)
 
-			# Clear input
+		# Clear input
 		id_entry.config(state="normal")
 		id_entry.delete(0, END)
 		first_entry.config(state="normal")
