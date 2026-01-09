@@ -12,16 +12,15 @@ def edit():
 	def builder():
 		records = db.collect_data_sick_leave_tree()
 
-		my_tree.delete(*my_tree.get_children())
+		print(records)
 
 		global count
 		count = 0
 		for record in records:
 			if count % 2 == 0:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('evenrow',))
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('evenrow',))
 			else:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('oddrow',))
-			# increment counter
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6]), tags=('oddrow',))
 			count += 1
 
 	# ##############################################################################################
@@ -60,7 +59,10 @@ def edit():
 	tree_scroll.config(command=my_tree.yview)
 
 	# Define Columns
-	my_tree['columns'] = ("ID", "First Name", "Sick Leave Days", "Start Date", "End Date", "Comment")
+	my_tree['columns'] = ("Rowid","ID", "First Name", "Sick Leave Days", "Start Date", "End Date", "Comment")
+
+	# Display Coumns
+	my_tree['displaycolumns'] = ("ID", "First Name", "Sick Leave Days", "Start Date", "End Date", "Comment")
 
 	# Format Columns
 	my_tree.column("#0", width=0, stretch=NO)
@@ -105,14 +107,14 @@ def edit():
 		values = my_tree.item(selected, 'values')
 
 		# output to entry boxes
-		id_entry.insert(0, values[0])
+		id_entry.insert(0, values[1])
 		id_entry.config(state="readonly")
-		first_entry.insert(0, values[1])
+		first_entry.insert(0, values[2])
 		first_entry.config(state="readonly")
-		leave_days_entry.insert(0, values[2])
-		start_entry.insert(0, values[3])
-		end_entry.insert(0, values[4])
-		comment_entry.insert("1.0", values[5])
+		leave_days_entry.insert(0, values[3])
+		start_entry.insert(0, values[4])
+		end_entry.insert(0, values[5])
+		comment_entry.insert("1.0", values[6])
 
 	def clear_input():
 		id_entry.config(state="normal")
@@ -128,9 +130,10 @@ def edit():
 		days = leave_days_entry.get()
 		start_date = start_entry.get()
 		end_date = end_entry.get()
+		comment = comment_entry.get("1.0", "end-1c")
 
 		# Update info
-		db.update_sick_leave_db(top, id, days, start_date, end_date)
+		db.update_sick_leave_db(top, id, days, start_date, end_date, comment)
 
 		# Clear input
 		id_entry.config(state="normal")
@@ -140,6 +143,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 
 		# Refresh
 		my_tree.delete(*my_tree.get_children())

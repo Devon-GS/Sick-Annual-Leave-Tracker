@@ -218,7 +218,7 @@ def collect_data_sick_leave_tree():
 		# Turn on foreign keys
 		c.execute('PRAGMA foreign_keys = ON')
 
-		c.execute(f"SELECT * FROM sickLeave ORDER BY ID ASC")
+		c.execute(f"SELECT rowid, * FROM sickLeave ORDER BY ID ASC")
 		records = c.fetchall()
 		
 		con.commit()
@@ -556,10 +556,7 @@ def update_leave_db(top, id, days, start_date, end_date, comment):
 								leaveEnd = :leaveEnd,
 								comment = :comment
 					
-								WHERE id = :id
-			  					AND leaveStart = :leaveStart 
-								AND leaveEnd = :leaveEnd
-			 					AND comment = :comment''',
+								WHERE id = :id''',
 								{
 									'id' : id,
 									'leaveTaken' : days,
@@ -742,7 +739,7 @@ def add_sick_leave_db(id, fname, sname):
 		return top
 
 # Edit sick annual Leave
-def update_sick_leave_db(top, id, days, start_date, end_date):
+def update_sick_leave_db(top, id, days, start_date, end_date, comment):
 	try:
 		if days == '' or start_date == '' or end_date == '':
 			raise Exception("Information Empty!")
@@ -760,14 +757,16 @@ def update_sick_leave_db(top, id, days, start_date, end_date):
 				c.execute('''UPDATE sickLeave SET
 								leaveTaken = :leaveTaken,
 								leaveStart = :leaveStart,
-								leaveEnd = :leaveEnd
+								leaveEnd = :leaveEnd,
+								comment = :comment
 					
 								WHERE id = :id''',
 								{
 									'id' : id,
 									'leaveTaken' : days,
 									'leaveStart' : start_date,
-									'leaveEnd' : end_date
+									'leaveEnd' : end_date,
+									'comment' : comment
 								})
 				
 				con.commit()
