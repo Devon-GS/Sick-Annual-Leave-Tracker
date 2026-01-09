@@ -6,7 +6,7 @@ import database as db
 def edit():
 	top = Toplevel()
 	top.attributes('-topmost', 'true')
-	top.geometry("1150x550")
+	# top.geometry("1150x550")
 	top.title("Edit Sick Leave")
 
 	def builder():
@@ -18,9 +18,9 @@ def edit():
 		count = 0
 		for record in records:
 			if count % 2 == 0:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('evenrow',))
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('evenrow',))
 			else:
-				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4]), tags=('oddrow',))
+				my_tree.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3], record[4], record[5]), tags=('oddrow',))
 			# increment counter
 			count += 1
 
@@ -60,23 +60,25 @@ def edit():
 	tree_scroll.config(command=my_tree.yview)
 
 	# Define Columns
-	my_tree['columns'] = ("ID", "First Name", "Sick Leave Days", "Start Date", "End Date")
+	my_tree['columns'] = ("ID", "First Name", "Sick Leave Days", "Start Date", "End Date", "Comment")
 
 	# Format Columns
 	my_tree.column("#0", width=0, stretch=NO)
-	my_tree.column("ID", anchor=W, width=150)
-	my_tree.column("First Name", anchor=W, width=150)
-	my_tree.column("Sick Leave Days", anchor=W, width=150)
+	my_tree.column("ID", anchor=CENTER, width=150)
+	my_tree.column("First Name", anchor=CENTER, width=150)
+	my_tree.column("Sick Leave Days", anchor=CENTER, width=105)
 	my_tree.column("Start Date", anchor=CENTER, width=100)
 	my_tree.column("End Date", anchor=CENTER, width=110)
+	my_tree.column("Comment", anchor=W, width=400)
 
 	# Create Headings
 	my_tree.heading("#0", text="", anchor=W)
-	my_tree.heading("ID", text="ID", anchor=W)
-	my_tree.heading("First Name", text="First Name", anchor=W)
+	my_tree.heading("ID", text="ID", anchor=CENTER)
+	my_tree.heading("First Name", text="First Name", anchor=CENTER)
 	my_tree.heading("Sick Leave Days", text="Sick Leave Days", anchor=W)
 	my_tree.heading("Start Date", text="Start Date", anchor=CENTER)
 	my_tree.heading("End Date", text="End Date", anchor=CENTER)
+	my_tree.heading("Comment", text="Comment", anchor=CENTER)
 
 	# Create Striped Row Tags
 	my_tree.tag_configure('oddrow', background="white")
@@ -94,6 +96,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 		
 		# Grab record Number
 		selected = my_tree.focus()
@@ -109,6 +112,7 @@ def edit():
 		leave_days_entry.insert(0, values[2])
 		start_entry.insert(0, values[3])
 		end_entry.insert(0, values[4])
+		comment_entry.insert("1.0", values[5])
 
 	def clear_input():
 		id_entry.config(state="normal")
@@ -194,9 +198,14 @@ def edit():
 	end_entry = Entry(data_frame)
 	end_entry.grid(row=0, column=9, padx=10, pady=10)
 
+	comment_label = Label(data_frame, text="Comment")
+	comment_label.grid(row=1, column=0, padx=10, pady=10)
+	comment_entry = Text(data_frame, height=2, width=100)
+	comment_entry.grid(row=1, column=1, columnspan=9, sticky=W, padx=10, pady=10)
+
 	# Button Frame
 	button_frame = LabelFrame(top, text="Leave Buttons")
-	button_frame.pack(fill="x", expand="no", padx=20, pady=(20,0))
+	button_frame.pack(fill="x", expand="no", padx=20, pady=20)
 
 	clear_button = Button(button_frame, text='Clear', width=12, command=clear_input)
 	clear_button.grid(row=0, column=0, padx=10, pady=10)
