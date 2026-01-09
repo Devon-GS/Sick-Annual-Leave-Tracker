@@ -121,6 +121,7 @@ def edit():
 		leave_days_entry.delete(0, END)
 		start_entry.delete(0, END)
 		end_entry.delete(0, END)
+		comment_entry.delete("1.0", "end")
 
 	def update_leave():
 		id = id_entry.get()
