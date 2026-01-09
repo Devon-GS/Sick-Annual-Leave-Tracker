@@ -50,7 +50,7 @@ Tracks leave and sick leave accumulated and taken by employee.
 ###### <ins>Edits</ins>
  - ~Make option for comments on add leave and sick leave~
 
- - Add edit of comments to edit leave and sick leave
+ - ~Add edit of comments to edit leave and sick leave~
 
  - Add notes next to leave in view all leave
 
