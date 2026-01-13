@@ -58,7 +58,7 @@ Tracks leave and sick leave accumulated and taken by employee.
 
  - ~Add button that open excel sheet to save wages rates~
 
- - For sick leave for 6 months get earn 1 day for every 26 days worked (month)
+ - ~For sick leave for 6 months get earn 1 day for every 26 days worked (month)~
 
 ### <ins>How to install</ins>
 

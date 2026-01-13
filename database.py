@@ -144,6 +144,9 @@ def collect_data_tree():
 			# ##################################
 			# GET SICK LEAVE
 			# ##################################
+
+			# Amount of sick leave allotted for 36 month cycle
+			allotted_leave = 30
 			
 			# Get todays date and employee start date into date object
 			today_date = date.today()
@@ -157,33 +160,57 @@ def collect_data_tree():
 			# Convert years to months and add remaining months
 			total_months = delta.years * 12 + delta.months
 
-			# Get current cycle
-			current_cycle = int(total_months / 36)
+			# Check if employee within first 6 months of working
+			if total_months <= 6:
+				# Get allotted sick leave for months worked
+				allotted_leave = total_months * 1  
 
-			# Get start and end cycle dates
-			start_cycle_date = emp_start_date + relativedelta.relativedelta(months=(current_cycle * 36))
-			end_cycle_date = emp_start_date + relativedelta.relativedelta(months=((current_cycle + 1) * 36))
+				# Get current cycle
+				current_cycle = int(total_months / 36)
 
-			# Check if leave is taken in current cycle
-			sick_leave_taken = 0
+				# Get start and end cycle dates
+				start_cycle_date = emp_start_date + relativedelta.relativedelta(months=(current_cycle * 36))
+				end_cycle_date = emp_start_date + relativedelta.relativedelta(months=((current_cycle + 1) * 36))
 
-			for leave in sick_taken:
-				# Convert date to right format
-				if rec[0] == leave[0]:
-					format_date = datetime.strptime(leave[3], "%d/%m/%Y").strftime("%d.%m.%Y")
-					leave_start_date = datetime.strptime(format_date, "%d.%m.%Y").date()
+				# Check if leave is taken in current cycle
+				sick_leave_taken = 0
 
-					# Check if leave dates in current cycle
-					if start_cycle_date <= leave_start_date <= end_cycle_date:
-						sick_leave_taken += leave[2]	
+				for leave in sick_taken:
+					# Convert date to right format
+					if rec[0] == leave[0]:
+						format_date = datetime.strptime(leave[3], "%d/%m/%Y").strftime("%d.%m.%Y")
+						leave_start_date = datetime.strptime(format_date, "%d.%m.%Y").date()
+
+						# Check if leave dates in current cycle
+						if start_cycle_date <= leave_start_date <= end_cycle_date:
+							sick_leave_taken += leave[2]	
+			else:
+				# Get current cycle
+				current_cycle = int(total_months / 36)
+
+				# Get start and end cycle dates
+				start_cycle_date = emp_start_date + relativedelta.relativedelta(months=(current_cycle * 36))
+				end_cycle_date = emp_start_date + relativedelta.relativedelta(months=((current_cycle + 1) * 36))
+
+				# Check if leave is taken in current cycle
+				sick_leave_taken = 0
+
+				for leave in sick_taken:
+					# Convert date to right format
+					if rec[0] == leave[0]:
+						format_date = datetime.strptime(leave[3], "%d/%m/%Y").strftime("%d.%m.%Y")
+						leave_start_date = datetime.strptime(format_date, "%d.%m.%Y").date()
+
+						# Check if leave dates in current cycle
+						if start_cycle_date <= leave_start_date <= end_cycle_date:
+							sick_leave_taken += leave[2]	
 			
 			# ##################################
 			# APPEND ALL LEAVE TO LIST
 			# ##################################
 
 			# Add leave days to eployee data
-			emp_info = rec + [leave_days] + [36 - sick_leave_taken]
-			# print(emp_info)
+			emp_info = rec + [leave_days] + [allotted_leave - sick_leave_taken]
 			empolyee_info.append(emp_info)
 
 		return empolyee_info
