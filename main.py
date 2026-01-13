@@ -109,6 +109,7 @@ def add_employee():
 
 	# Save to database
 	db.add_employee_db(id, fname, sname, start)
+	med_docs.create_med_folder(fname, sname)
 
 	# Clear entry boxes
 	id_entry.delete(0, END)

@@ -10,6 +10,15 @@ try:
 except Exception as error:
 	messagebox.showerror(title='Add Medical Docments Folder', message=error)
 
+def create_med_folder(fname, sname):
+	try:
+		# Make employee folder if not exists
+		for employee in collect_data_docs():
+			if not os.path.exists(f'Medical Documents/{employee[1]} {employee[2]}'):
+				os.mkdir(f'Medical Documents/{employee[1]} {employee[2]}')
+	except Exception as error:
+		messagebox.showerror(title='Open Medical Docments Folder', message=error)
+
 def open_med_doc(fname, sname):
 	try:
 		# Make employee folder if not exists
